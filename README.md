@@ -7,5 +7,5 @@ To update:
 3. Find FtcOfflineBlocks.js (Revy2_offline_blocks_editor/js/FtcOfflineBlocks.js)
                              -Might be called something different on your download
 4. Create a branch and replace the file with your new FtcOfflineBlocks.js
-5. Create a pull request and issue to let me know what you fixed
-6. Hopefully this works and ill accept it!
+5. Create a pull request and issue to let me know what you fixed/ updated
+6. Hopefully this works for you!
