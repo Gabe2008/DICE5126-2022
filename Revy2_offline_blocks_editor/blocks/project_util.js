@@ -24,26 +24,26 @@
  * Fetches the list of projects (as json) and calls the callback.
  */
 function fetchProjects(callback) {
-  if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-    // html/js is in a browser, loaded as an http:// URL.
-    fetchProjectsViaHttp(callback);
-  } else if  (window.location.protocol === 'file:') {
+//  if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+//    // html/js is in a browser, loaded as an http:// URL.
+//    fetchProjectsViaHttp(callback);
+//  } else if  (window.location.protocol === 'file:') {
     // html/js is in a browser, loaded as an file:// URL.
     fetchProjectsViaFile(callback);
-  }
+//  }
 }
 
 /**
  * Fetches the list of samples (as json) and calls the callback.
  */
 function fetchSamples(callback) {
-  if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-    // html/js is in a browser, loaded as an http:// URL.
-    fetchSamplesViaHttp(callback);
-  } else if (window.location.protocol === 'file:') {
+//  if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+//    // html/js is in a browser, loaded as an http:// URL.
+//    fetchSamplesViaHttp(callback);
+//  } else if (window.location.protocol === 'file:') {
     // html/js is in a browser, loaded as an file:// URL.
     fetchSamplesViaFile(callback);
-  }
+//  }
 }
 
 /**

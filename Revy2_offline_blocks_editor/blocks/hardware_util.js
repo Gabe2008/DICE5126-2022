@@ -37,13 +37,13 @@ function fetchJavaScriptForHardware(callback) {
 }
 
 function getConfigurationName(callback) {
-  if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
-    // html/js is in a browser, loaded as an http:// URL.
-    getConfigurationNameViaHttp(callback);
-  } else if (window.location.protocol === 'file:') {
+//  if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+//    // html/js is in a browser, loaded as an http:// URL.
+//    getConfigurationNameViaHttp(callback);
+//  } else if (window.location.protocol === 'file:') {
     // html/js is in a browser, loaded as an file:// URL.
     getConfigurationNameViaFile(callback);
-  }
+//  }
 }
 
 /**
