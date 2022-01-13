@@ -46,8 +46,8 @@ function resizeIframe() {
   var navbar = document.getElementById('navbarContainer');
   var parentElement = navbar.parentElement;
   var width = navbar.offsetWidth;
-  var height = 650;
-  var theIFrameContainer = document.getElementById("theIFrameContainer");
+  var height = parentElement.clientHeight - navbar.offsetHeight;
+  var theIFramevar height = parentElement.clientHeight - navbar.offsetHeight;Container = document.getElementById("theIFrameContainer");
   theIFrameContainer.style.width = width + 'px';
   theIFrameContainer.style.height = height + 'px';
   var theIFrame = document.getElementById("theIFrame");
