@@ -16,8 +16,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaCurrentGame;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
-@TeleOp(name = "Revy2v5WITHCOMMENTS (Blocks to Java)")
-public class Revy2v5WITHCOMMENTS extends LinearOpMode {
+@TeleOp(name = "Revy2v5clean (Blocks to Java)")
+public class Revy2v5clean extends LinearOpMode {
 
   private VuforiaCurrentGame vuforiaFreightFrenzy;
   private DcMotor ArmMotor;
@@ -69,7 +69,6 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
     MagneticLimit = hardwareMap.get(TouchSensor.class, "Magnetic Limit");
     elbowtouch = hardwareMap.get(TouchSensor.class, "elbow touch");
 
-    // Tele op init for freight frenzy 2022 (by gabe)
     gamepad1.rumble(1000);
     tgtLowerArm = 0;
     tgtElbow = 0;
@@ -99,8 +98,10 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
     spinner0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     waitForStart();
     tgtPosition = 0;
+    // above Makes sure motors are going the right direction and sets variables to their starting values
     if (opModeIsActive()) {
-      // Put run blocks here.
+      // Sets up motor settings
+      // Arm motors use encoder to hold position
       ElbowMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
       ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
       Right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -108,7 +109,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
       ArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
       ElbowMotor.setTargetPosition(ElbowMotor.getCurrentPosition());
       while (opModeIsActive()) {
-        // Put loop blocks here.
+        // Display sensor readout
         telemetry.addData("Target Power", tgtPower);
         tgtPower = getSpeed() * -maxSpeed;
         telemetry.addData("RearRight Inner (CM)", RearRight_DistanceSensor.getDistance(DistanceUnit.CM));
@@ -117,6 +118,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
         telemetry.addData("RearLeft Outer (CM)", RearLeftOuter.getDistance(DistanceUnit.CM));
         telemetry.addData("Motor Power", Left.getPower());
         tgtPower2 = getSteer() * -(maxSpeed * 0.7);
+        // Sets wheel motor power for driving
         Left.setPower(-tgtPower2 + tgtPower);
         Right.setPower(tgtPower2 + tgtPower);
         telemetry.addData("Target Power", tgtPower2);
@@ -124,7 +126,9 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
         telemetry.addData("arm position", ArmMotor.getCurrentPosition());
         telemetry.addData("elbowPosition", ElbowMotor.getCurrentPosition());
         telemetry.addData("tgtPosition", tgtPosition);
+        // Above prints data
         if (getElbow() < -0.2) {
+          // Moves arm down
           tgtPosition = (int) (getElbow() * 40 + tgtPosition);
           ElbowMotor.setTargetPosition(tgtPosition);
           ElbowMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -134,6 +138,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
         } else if (ArmParked.isPressed()) {
           powerDownElbowMotor();
         } else if (getElbow() > 0.2) {
+          // Moves arm up
           if (ArmParked.isPressed()) {
             powerDownElbowMotor();
           } else {
@@ -145,22 +150,28 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
             runtime.reset();
           }
         } else if (runtime.seconds() <= 30) {
+          // Countdown to check if motor is idle
           telemetry.addData("arm hold time remaining", 30 - runtime.seconds());
         } else {
           powerDownElbowMotor();
         }
         if (gamepad1.x) {
+          // Lowers driving speed
           maxSpeed = 0.5;
         }
         if (gamepad1.b) {
+          // Sets driving speed back to default
           maxSpeed = 1;
         }
         if (gamepad2.a) {
+          // Opens claw
           Servo1.setPosition(1);
         } else {
+          // Closes slaw
           Servo1.setPosition(0.57);
         }
         if (gamepad2.b) {
+          // Spins duck spinner
           spinner1.setPower(1);
         } else {
           spinner1.setPower(0);
@@ -171,7 +182,9 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
         telemetry.addData("Elbow Position", ElbowMotor.getCurrentPosition());
         telemetry.addData("Lower Arm Position", ArmMotor.getCurrentPosition());
         telemetry.addData("Park Position", parkPosition);
+        // Above prints out data to screen
         if (MagneticLimit.isPressed() || ArmParked.isPressed()) {
+          // Prevents arm from going to low or too high (damaging floor/ motor/ or robot)
           if (getLowerArm() < 0) {
             ArmMotor.setPower(getLowerArm() * LowerArmPower);
           } else {
@@ -190,6 +203,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
         }
         telemetry.update();
         if (gamepad2.b) {
+          // Spins duck spinner if button is pressed
           spinner0.setPower(-1);
         } else {
           spinner0.setPower(0);
@@ -201,7 +215,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
   }
 
   /**
-   * Describe this function...
+   * Checks if forward or reverse
    */
   private double getSpeed() {
     float inSpeed;
@@ -217,7 +231,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
   }
 
   /**
-   * Describe this function...
+   * Gets right stick x
    */
   private double getSteer() {
     float inSteer;
@@ -228,7 +242,7 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
   }
 
   /**
-   * Describe this function...
+   * if arm is stuck or idle it powers down to avoid motor stall which can damage motor
    */
   private void powerDownElbowMotor() {
     tgtPosition = -20;
@@ -237,7 +251,9 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
   }
 
   /**
-   * Describe this function...
+   * Checks if the dpad is being pressed or the right stick is being
+   * moved. The reason for the function is to allow more than one button
+   * to control. Dpad moves both elbow and arm motors at the same time.
    */
   private double getElbow() {
     float inElbow;
@@ -257,7 +273,9 @@ public class Revy2v5WITHCOMMENTS extends LinearOpMode {
   }
 
   /**
-   * Describe this function...
+   * Checks if the dpad is being pressed or the left stick
+   * is being moved. The reason for the function is to
+   * allow more than one button to control the lower arm.
    */
   private double getLowerArm() {
     float inLowerArm;
